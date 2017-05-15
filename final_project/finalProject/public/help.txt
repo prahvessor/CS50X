@@ -1,0 +1,5 @@
+apache50 stop
+
+apache50 start ~/workspace/finalProject/public
+
+mysql50 start

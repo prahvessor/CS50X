@@ -1,0 +1,31 @@
+/**
+ * styles.css
+ *
+ * Computer Science 50
+ * Final project
+ *
+ * Global CSS.
+ */
+ 
+#mp3_player{
+	width: 500px;
+	height: 50px;
+}
+#mp3_player > div > audio{
+	width: 500px;
+	background: #000;
+}
+#mp3_player > canvas{
+	width: 500px;
+	height: 50px;
+	background: #002938;
+}
+input.eqcontrols { 
+	-webkit-appearance: slider-vertical;
+	width:30px;
+	height:80px;
+}
+.frqcontrol{
+    float:left;
+	font-size:14px;
+}

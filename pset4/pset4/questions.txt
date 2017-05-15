@@ -1,0 +1,30 @@
+0.  BMP - Up to 32-bit per pixel (32bpp) format supports 4,294,967,296 distinct(RGB + alpha) colors
+    JPG - 24 bits/pixel, 2^24 = 16 777 216 colors
+    GIF - 8 bits/pixel, 256 colors
+    PNG - with palettes of 24-bit RGB or 32-bit RGBA(RGB + alpha) colors
+1.  Only the GIF-files support animation
+2.  Lossless and lossy compression are terms that describe whether or not, in the compression of a file, 
+    all original data can be recovered when the file is uncompressed. 
+3.  JPG formats is lossy-compressed
+4.  If a file is deleted on the FAT file system the first character of a file name is replaced by a special character (0xE5) 
+    causing the operating system (Windows, DOS etc.) to ignore the file. Also, all clusters allocated to the file are 
+    marked as 'available' in the FAT.
+5.  Overwrite all addressable locations with a random character, overwrite against with the character’s complement,
+    and then verify. 
+6.  This header defines a set of integral type aliases with specific width requirements, along with macros specifying their limits 
+    and macro functions to create values of these types.
+7.  Using well-defined types makes the code far easier and safer to port to other platform
+8.  BYTE - 1 byte
+    DWORD - unsigned 4 bytes
+    LONG - signed 4 bytes
+    WORD - 2 bytes
+9.  BM
+10. bfSize - size of file, biSize - size of BITMAPINFOHEADER
+11. The order of rows from up to down
+12. biBitCount
+13. If the file is successfully opened, the function returns a pointer to a FILE object, otherwise, a NULL pointer is returned.
+14. Because we read only one block of data at the time
+15. 3
+16. Sets the position indicator associated with the stream to a new position
+17. Current position of the file pointer
+18. Rick Astley!!!

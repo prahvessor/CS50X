@@ -1,0 +1,62 @@
+    I'm sorry about my English, it's not my first language.
+0.  pneumonoultramicroscopicsilicovolcanoconiosis is example of a maximum length for a word
+
+1.  getrusage() returns resource usage measures for who, which can be one of the following:
+        RUSAGE_SELF
+        RUSAGE_CHILDREN
+        RUSAGE_THREAD (since Linux 2.6.26)
+        
+2.  There are 16 variables:
+    struct rusage {
+               struct timeval ru_utime; /* user CPU time used */
+               struct timeval ru_stime; /* system CPU time used */
+               long   ru_maxrss;        /* maximum resident set size */
+               long   ru_ixrss;         /* integral shared memory size */
+               long   ru_idrss;         /* integral unshared data size */
+               long   ru_isrss;         /* integral unshared stack size */
+               long   ru_minflt;        /* page reclaims (soft page faults) */
+               long   ru_majflt;        /* page faults (hard page faults) */
+               long   ru_nswap;         /* swaps */
+               long   ru_inblock;       /* block input operations */
+               long   ru_oublock;       /* block output operations */
+               long   ru_msgsnd;        /* IPC messages sent */
+               long   ru_msgrcv;        /* IPC messages received */
+               long   ru_nsignals;      /* signals received */
+               long   ru_nvcsw;         /* voluntary context switches */
+               long   ru_nivcsw;        /* involuntary context switches */
+           };
+3.  We pass 'before' and 'after' by reference (instead of by value) to 'calculate' because we want to avoid copying data 
+    as parameters
+    
+4.  main reads location of dictionary and incoming text file in parameters:
+    ./speller dictionaries/small text
+    or if we don't specified any special dictionary in parameter uses default dictionary. We have some metrics to measure 
+    computing of every functions: load, check, size and unload. After loading dictionary in memory ano opening incoming text file 
+    we start checking words for spelling. In for loop we're reading text symbol by symbol and check character: if it is 
+    alphabetical character or apostrophe we start duilding a word, counting number of characters. If size of the word is too long 
+    we skip it and set charater counter to 0. If word has any number or cpecial characters we skip it again. If we found 
+    space character and index of characters bigger than 0 we terminate current word by adding '\0' and increment words counter by 1.
+    After that we check word for spelling and print word if misspelled. Next we start building new word and repeat all previous.
+    In the end we count number of words in dictionary and free allocated memory from it.
+    Before executing every function and after we measure using system resources and calculate time of function exetuting.
+    
+    
+5.  Using fgetc is much faster than using fscanf and less using resources. We don't need to allocate additional memory for 
+    string and write additional functionallity to separate string to words to skip alphanumeric words.  
+    
+6.  Because we didn't change any of this parameters
+
+7.  I used trie, like trie in Zemyla's video:
+    typedef struct node
+    {
+        bool isWord; // is a flag to tag the end of the word
+        struct node* children[27]; // array of pointers for letters [1-26] and apostophe [27]
+    }
+    node;
+    It looks like a searching popup strings in Google.
+    
+8.  Sorry I did't notice it.
+
+9.  I got stuck wish hash table, so I decided ro realize with trie. I was happy, that my program working well.
+
+10. I'm not sure, this set was the most difficult than all previous. I'm still working on hash table.

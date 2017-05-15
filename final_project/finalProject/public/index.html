@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+		<!-- http://getbootstrap.com/ -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/styles.css" rel="stylesheet"/>
+
+    <!-- https://jquery.com/ -->
+    <script src="js/jquery-1.11.3.min.js"></script>
+
+    <!-- http://getbootstrap.com/ -->
+    <script src="js/bootstrap.min.js"></script>
+	
+	<!-- WEB Audio API script implementation -->
+	<script src="js/web-audio-api-fproject.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-md-7">
+				<!--Playlist-->
+				<ul class="list-group">
+					<h4 class="list-group-item active">Playlist</h4>
+					<li class="list-group-item list-group-item-default">
+						<h3 id="playlist_status" style=""></h3>
+					</li>
+					<li class="list-group-item list-group-item-default">
+						<select id="mylist" multiple class="form-control">
+						    <option value="Emiliana_-_Torrini_-_Jangle_drum">Emiliana - Torrini - Jangle drum</option>
+						    <option value="iBenji_-_Boom_feat_Talabun">iBenji - Boom feat Talabun</option>
+						    <option value="Nirvana_-_Lithium_guitar only_Reading_30.08.92">Nirvana_-_Lithium_guitar only_Reading_30.08.92</option>
+						    <option value="Rick_Astley_-_Never_Gonna_Give_You_Up">Rick_Astley_-_Never_Gonna_Give_You_Up</option>
+						    <option value="The_White_Stripes_-_Seven_Nation_Army">The_White_Stripes_-_Seven_Nation_Army</option>
+						    <option value="Tim_McMorris_-_Its_a_Beautiful_Day">Tim_McMorris_-_Its_a_Beautiful_Day</option>
+						</select>
+					</li>
+				</ul>
+			</div>
+			<div class="col-xs-12 col-md-5">
+				<!--Input audio control panel-->
+				<ul class="list-group">
+					<h4 class="list-group-item active">Input audio control panel</h4>
+					<li class="list-group-item list-group-item-default">
+						<div id="mp3_player">
+					   		<div id="audio_box"></div>
+					   		
+					   		<!--<audio controls id="audio" controls="" src="audio/Emiliana_-_Torrini_-_Jangle_drum.mp3"></audio>-->
+					   	</div>
+					</li>
+					<!-- equalizer render -->
+					<li class="list-group-item list-group-item-info">Input signal</li>
+					<li class="list-group-item list-group-item-default">
+					   	<div id="mp3_player">
+					   		<canvas id="analyser_render_in" width="500" height="50"></canvas>
+					   	</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- audio conversion -->
+		<div class="row">
+			<div class="col-xs-6 col-md-2">
+				<!--Output audio control-->
+				<ul class="list-group">
+					<h4 class="list-group-item active">Output audio control</h4>
+	            	<!-- volume control-->
+					<li class="list-group-item list-group-item-info">Volume</li>
+					<li class="list-group-item list-group-item-default">
+						<table style="width: 100%;">
+		                	<tr>
+		               	    	<td>
+		               	    		<p class="text-left">Min&nbsp;&nbsp;</p>
+		                	   	</td>
+		                   		<td>
+		                   			<input type="range" min="0" max="100" value="100" onchange="changeVolume(this);">
+				   	     		</td>
+		           	      		<td>
+		               	   			<p class="text-right">&nbsp;&nbsp;Max</p>
+		            	      	</td>
+		              	     </tr>
+		                </table>
+					</li>
+					<!-- Balance control-->
+					<li class="list-group-item list-group-item-info">Balance</li>
+					<li class="list-group-item list-group-item-default">
+						<table style="width: 100%;">
+		             		<tr>
+		               	    	<td>
+		               	    		<p class="text-left">L&nbsp;&nbsp;</p>
+		               	    	</td>
+		                		<td>
+		                			<input type="range" name="pan" id="pan" value="0" min="-1" max="1" step="0.1" onchange="changePan(this);"/>
+		                		</td>
+		                  			<td>
+		                  	 			<p class="text-right">&nbsp;&nbsp;R</p>
+		                 		   	</td>
+		                  		</tr>
+		            	</table>
+					</li>
+				</ul>
+			</div>
+			<div class="col-xs-6 col-md-5">
+				<!--Filter-->
+				<ul class="list-group">
+					<h4 class="list-group-item list-group-item-warning">Low pass filter</h4>
+					<li class="list-group-item list-group-item-default">
+						<p>Apply a simple low pass filter to a sound. Lets you tweak frequency and Q values.</p>
+			       		<p>
+			       			<input type="checkbox" id="c1" checked="false" onchange="toggleFilter(this);">
+			       			<label for="c1"><span></span>Enable filter</label>
+			       		</p>
+			       		<p><input type="range" min="0" max="1" step="0.01" value="1" onchange="changeFrequency(this);"> Frequency</p>
+			       		<p><input type="range" min="0" max="1" step="0.01" value="0" onchange="changeQuality(this);"> Quality</p>
+					</li>
+				</ul>
+			</div>
+			<div class="col-xs-12 col-md-5">
+				<!--Output-->
+				<ul class="list-group">
+					<h4 class="list-group-item list-group-item-info">Output signal</h4>
+					<li class="list-group-item list-group-item-default">
+						<!-- equalizer render -->
+					    <div id="mp3_player">
+					    	<canvas id="analyser_render_out" width="500" height="50"></canvas>
+					    </div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-md-10 col-md-offset-1">
+				<!--Filter-->
+				<ul class="list-group">
+					<h4 class="list-group-item list-group-item-warning">Equalizer</h4>
+					<li class="list-group-item list-group-item-default">
+				    	<div>
+							<select id="eqlist" class="form-control">
+								<option value="0">default</option>
+								<option value="1">classic</option>
+								<option value="2">dance</option>
+								<option value="3">headphones</option>
+								<option value="4">jazz</option>
+								<option value="5">live</option>
+								<option value="6">pop</option>
+								<option value="7">rap</option>
+								<option value="8">rock</option>
+								<option value="9">techno</option>
+								<option value="10">vocal</option>
+							</select>
+						</div>
+				    	<table>
+							<tr>
+								<td>
+									<div id="equalizer" >
+									  	<div class="frqcontrol">&nbsp;31 Hz&nbsp;<br>
+									    	<input type="range" title="0" class="eqcontrols" id="0" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;63 Hz&nbsp;<br>
+									    	<input type="range" title="0" class="eqcontrols" id="1" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">87 Hz&nbsp;<br>
+									    	<input type="range" title="0" class="eqcontrols" id="2" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;125 Hz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="3" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;175 Hz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="4" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;250 Hz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="5" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;350 Hz&nbsp;<br> 
+									    	<input type="range" title="0" class="eqcontrols" id="6" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;500 Hz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="7" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;700 Hz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="8" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;1 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="9" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;1.4 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="10" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;2.0 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="11" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;2.8 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="12" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;4.0 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="13" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;5.6 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="14" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;8.0 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="15" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;11.2 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="16" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+									    <div class="frqcontrol">&nbsp;16.0 kHz&nbsp;<br>  
+									    	<input type="range" title="0" class="eqcontrols" id="17" min="-15" max="15" value="" step="0.1" orient="vertical">
+									    </div>
+								  	</div>
+									</td>
+								</tr>
+						</table>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

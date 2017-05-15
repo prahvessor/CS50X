@@ -1,0 +1,9 @@
+questions.txt
+
+Computer Science 50
+Problem Set 3
+
+0. other dimensions that framework allows are from [3x3] to [9x9] inclusive
+1. game board - is two dimentional array: board[i][j]
+2. the function is 'void greet(void)'
+3. I shoul implement next functions in this order: init, draw, move, won.
